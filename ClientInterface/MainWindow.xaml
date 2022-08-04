@@ -1,0 +1,21 @@
+﻿<Window x:Class="ClientInterface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClientInterface"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="FirstNameBox" HorizontalAlignment="Center" Margin="0,79,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.505,0.503"/>
+        <TextBox x:Name="LastNameBox" HorizontalAlignment="Center" Margin="0,106,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="AcctNoBox" HorizontalAlignment="Center" Margin="0,133,0,0" TextWrapping="Wrap" Text="Account Number" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="PinNumBox" HorizontalAlignment="Center" Margin="0,160,0,0" TextWrapping="Wrap" Text="Pin Number" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BalanceBox" HorizontalAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" Text="Balance" VerticalAlignment="Top" Width="120"/>
+        <Separator HorizontalAlignment="Center" Height="15" Margin="0,266,0,0" VerticalAlignment="Top" Width="800"/>
+        <TextBox x:Name="IndexBox" HorizontalAlignment="Left" Margin="260,300,0,0" TextWrapping="Wrap" Text="Index?" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.195,-0.835"/>
+        <TextBlock x:Name="TotalNumText" HorizontalAlignment="Left" Margin="260,327,0,0" TextWrapping="Wrap" Text="Total Items" VerticalAlignment="Top"/>
+        <Button x:Name="GoBtn" Content="Go!" HorizontalAlignment="Left" Margin="472,299,0,0" VerticalAlignment="Top" Width="70" Click="GoBtn_Click"/>
+
+    </Grid>
+</Window>
