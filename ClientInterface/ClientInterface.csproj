@@ -100,6 +100,10 @@
       <Project>{e12c13c6-2b79-4066-8121-3f0cc1c1fdc4}</Project>
       <Name>DatabaseServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DC Practical 1\DC Practical 1.csproj">
+      <Project>{D933446D-95A1-4564-9FD6-38AA781F37A2}</Project>
+      <Name>DC Practical 1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,17 +11,17 @@ namespace DatabaseServer
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     internal class CustomerServerImplementation : CustomerServerInterface
     {
-        List<Customer> cList = CustomerList.Customers();
-        int CustomerServerInterface.GetNumEntries() => CustomerList.Customers().Count;
+        CustomerDatabase data = new CustomerDatabase();
+
+        int CustomerServerInterface.GetNumEntries() => data.GetNumRecords();
         public void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName)
         {
-            acctNo = cList[index-1].acctNo;
-            pin = cList[index-1].pin;
-            bal = cList[index-1].balance;
-            fName = cList[index-1].firstname;
-            lName = cList[index-1].lastname;
+            acctNo = data.GetAcctNoByIndex(index);
+            pin = data.GetPINByIndex(index);
+            bal = data.GetBalanceByIndex(index);
+            fName = data.GetFirstNameByIndex(index);
+            lName = data.GetLastNameByIndex(index);
         }
     }
-    
 }
 

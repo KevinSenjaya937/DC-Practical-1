@@ -39,19 +39,31 @@ namespace ClientInterface
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
         {
-            int index = 0;
             string fName = "", lName = "";
             int bal = 0;
             uint acct = 0, pin = 0;
+            try
+            {
+                int index = Int32.Parse(IndexBox.Text);
 
-            index = Int32.Parse(IndexBox.Text);
-            foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName);
+                if (index > 0 && index < 21)
+                {
+                    foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName);
 
-            FirstNameBox.Text = fName;
-            LastNameBox.Text = lName;
-            BalanceBox.Text = bal.ToString("C");
-            AcctNoBox.Text = acct.ToString();
-            PinNumBox.Text = pin.ToString("D4");
+                    FirstNameBox.Text = fName;
+                    LastNameBox.Text = lName;
+                    BalanceBox.Text = bal.ToString("C");
+                    AcctNoBox.Text = acct.ToString("D4");
+                    PinNumBox.Text = pin.ToString("D4");
+                }
+                
+            }
+            
+            catch(FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
     }
 }

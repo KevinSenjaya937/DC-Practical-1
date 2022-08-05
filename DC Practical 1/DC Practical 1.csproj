@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="DatabaseGenerator.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="CustomerList.cs" />
+    <Compile Include="CustomerDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

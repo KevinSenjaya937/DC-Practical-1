@@ -8,7 +8,7 @@ namespace DC_Practical_1
 {
     public class DatabaseGenerator
     {
-
+        Random rand = new Random();
         private string[] firstnames = {"Jack", "Chris", "Matthew", "Heather", "Michelle", "Jennifer"};
         private string[] lastnames = { "Love", "Brown", "Green", "McCarter", "O'Brian", "Griffith" };
         private uint[] pins = {1111, 2222, 3333, 4444, 5555, 6666 };
@@ -37,7 +37,6 @@ namespace DC_Practical_1
 
         private int GenerateRandNum()
         {
-            Random rand = new Random();
             return rand.Next(0, 5);
         }
 

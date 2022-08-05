@@ -21,6 +21,7 @@ namespace DatabaseServer
 
             host.Open();
             Console.WriteLine("System Online");
+            
             Console.ReadLine();
 
             host.Close();
