@@ -104,6 +104,10 @@
       <Project>{D933446D-95A1-4564-9FD6-38AA781F37A2}</Project>
       <Name>DC Practical 1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InterfaceToDLL\InterfaceToDLL.csproj">
+      <Project>{24c30fc1-a1de-4880-817b-afa93f11fc18}</Project>
+      <Name>InterfaceToDLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

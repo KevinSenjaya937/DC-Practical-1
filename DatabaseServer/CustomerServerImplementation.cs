@@ -5,15 +5,16 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using DC_Practical_1;
+using InterfaceToDLL;
 
 namespace DatabaseServer
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
-    internal class CustomerServerImplementation : CustomerServerInterface
+    internal class CustomerServerImplementation : BankingInterface
     {
         CustomerDatabase data = new CustomerDatabase();
 
-        int CustomerServerInterface.GetNumEntries() => data.GetNumRecords();
+        int BankingInterface.GetNumEntries() => data.GetNumRecords();
         public void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName)
         {
             acctNo = data.GetAcctNoByIndex(index);

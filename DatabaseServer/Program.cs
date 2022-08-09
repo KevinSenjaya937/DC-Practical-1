@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using InterfaceToDLL;
 
 namespace DatabaseServer
 {
@@ -17,7 +18,7 @@ namespace DatabaseServer
 
             host = new ServiceHost(typeof(CustomerServerImplementation));
 
-            host.AddServiceEndpoint(typeof(CustomerServerInterface), tcp, "net.tcp://0.0.0.0:8100/CustomerService");
+            host.AddServiceEndpoint(typeof(BankingInterface), tcp, "net.tcp://0.0.0.0:8100/CustomerService");
 
             host.Open();
             Console.WriteLine("System Online");

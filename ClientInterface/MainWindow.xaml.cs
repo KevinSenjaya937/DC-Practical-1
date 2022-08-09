@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DatabaseServer;
 using System.ServiceModel;
+using InterfaceToDLL;
 
 namespace ClientInterface
 {
@@ -22,15 +23,15 @@ namespace ClientInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        private CustomerServerInterface foob;
+        private BankingInterface foob;
         public MainWindow()
         {
             InitializeComponent();
-            ChannelFactory<CustomerServerInterface> foobFactory;
+            ChannelFactory<BankingInterface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
 
             string URL = "net.tcp://localhost:8100/CustomerService";
-            foobFactory = new ChannelFactory<CustomerServerInterface>(tcp, URL);
+            foobFactory = new ChannelFactory<BankingInterface>(tcp, URL);
             foob = foobFactory.CreateChannel();
 
             TotalNumText.Text = foob.GetNumEntries().ToString();
