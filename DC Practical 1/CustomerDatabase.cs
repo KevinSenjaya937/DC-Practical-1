@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace DC_Practical_1
 {
@@ -14,6 +15,9 @@ namespace DC_Practical_1
         {
             cList = new List<DC_Practical_1.Customer>();
             cList = Customers();
+
+            string path = @"Images/profpic1.jpg";
+            Console.WriteLine(path);
         }
         public List<Customer> Customers()
         {
@@ -22,9 +26,9 @@ namespace DC_Practical_1
 
             for (int i = 0; i < 20; i++)
             { 
-                generator.GetNextAccount(out uint acctNo, out uint pin, out int balance, out string firstname, out string lastname);
+                generator.GetNextAccount(out uint acctNo, out uint pin, out int balance, out string firstname, out string lastname, out string profPicPath);
 
-                Customer customer = new Customer(acctNo, pin, balance, firstname, lastname);
+                Customer customer = new Customer(acctNo, pin, balance, firstname, lastname, profPicPath);
 
                 cList.Add(customer);
             }
@@ -37,6 +41,7 @@ namespace DC_Practical_1
         public string GetFirstNameByIndex(int index) => cList[(int)index].firstname;
         public string GetLastNameByIndex(int index) => cList[(int)index].lastname;
         public int GetBalanceByIndex(int index) => cList[(int)index].balance;
+        public string GetProfPicPath(int index) => cList[index].profPicPath;
         public int GetNumRecords() => cList.Count;
     }
 

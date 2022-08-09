@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DC_Practical_1;
 using InterfaceToDLL;
+using System.Drawing;
 
 namespace DatabaseServer
 {
@@ -15,13 +16,14 @@ namespace DatabaseServer
         CustomerDatabase data = new CustomerDatabase();
 
         int BankingInterface.GetNumEntries() => data.GetNumRecords();
-        public void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName)
+        public void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath)
         {
             acctNo = data.GetAcctNoByIndex(index);
             pin = data.GetPINByIndex(index);
             bal = data.GetBalanceByIndex(index);
             fName = data.GetFirstNameByIndex(index);
             lName = data.GetLastNameByIndex(index);
+            profPicPath = data.GetProfPicPath(index);
         }
     }
 }

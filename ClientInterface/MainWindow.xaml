@@ -16,6 +16,8 @@
         <TextBox x:Name="IndexBox" HorizontalAlignment="Left" Margin="260,300,0,0" TextWrapping="Wrap" Text="Index?" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.195,-0.835"/>
         <TextBlock x:Name="TotalNumText" HorizontalAlignment="Left" Margin="260,327,0,0" TextWrapping="Wrap" Text="Total Items" VerticalAlignment="Top"/>
         <Button x:Name="GoBtn" Content="Go!" HorizontalAlignment="Left" Margin="472,299,0,0" VerticalAlignment="Top" Width="70" Click="GoBtn_Click"/>
+        <Image x:Name="ProfileImage" HorizontalAlignment="Left" Height="100" Margin="223,79,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image HorizontalAlignment="Left" Height="9" Margin="289,142,0,0" VerticalAlignment="Top" Width="0"/>
 
     </Grid>
 </Window>

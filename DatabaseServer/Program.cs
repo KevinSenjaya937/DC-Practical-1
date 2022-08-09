@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using InterfaceToDLL;
+
 
 namespace DatabaseServer
 {
@@ -22,7 +24,10 @@ namespace DatabaseServer
 
             host.Open();
             Console.WriteLine("System Online");
-            
+            string workingDirectory = Environment.CurrentDirectory;
+            string path = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            Console.WriteLine(path);
+
             Console.ReadLine();
 
             host.Close();
