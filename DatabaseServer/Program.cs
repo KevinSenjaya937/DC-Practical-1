@@ -24,10 +24,6 @@ namespace DatabaseServer
 
             host.Open();
             Console.WriteLine("System Online");
-            string workingDirectory = Environment.CurrentDirectory;
-            string path = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            Console.WriteLine(path);
-
             Console.ReadLine();
 
             host.Close();

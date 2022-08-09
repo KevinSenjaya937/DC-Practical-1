@@ -15,9 +15,6 @@ namespace DC_Practical_1
         {
             cList = new List<DC_Practical_1.Customer>();
             cList = Customers();
-
-            string path = @"Images/profpic1.jpg";
-            Console.WriteLine(path);
         }
         public List<Customer> Customers()
         {
@@ -32,7 +29,6 @@ namespace DC_Practical_1
 
                 cList.Add(customer);
             }
-
             return cList;
         }
 
