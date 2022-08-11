@@ -12,6 +12,7 @@ namespace InterfaceToDLL
     public interface BankingInterface
     {
         [OperationContract]
+        
         int GetNumEntries();
         [OperationContract]
         void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);

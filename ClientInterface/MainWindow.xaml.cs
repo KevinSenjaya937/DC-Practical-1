@@ -53,6 +53,8 @@ namespace ClientInterface
 
                 if (index > 0 && index < 21)
                 {
+                    ErrorMsgBox.Text = String.Empty;
+                    
                     foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
 
                     FirstNameBox.Text = fName;
@@ -67,16 +69,20 @@ namespace ClientInterface
                     profilePicture.EndInit();
                 
                     ProfileImage.Source = profilePicture;
-                    
+                } 
+                else
+                {
+                    ErrorMsgBox.Text = "Index entered is out of range. Please check the total number of items.";
+
                 }
-                
+
             }
             
             catch(FormatException ex)
             {
                 Console.WriteLine(ex.Message);
+                ErrorMsgBox.Text = "Index entered is not in the correct format. Please try again.";
             }
-            
         }
     }
 }

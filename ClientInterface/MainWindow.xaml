@@ -7,17 +7,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="FirstNameBox" HorizontalAlignment="Center" Margin="0,79,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.505,0.503"/>
-        <TextBox x:Name="LastNameBox" HorizontalAlignment="Center" Margin="0,106,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="AcctNoBox" HorizontalAlignment="Center" Margin="0,133,0,0" TextWrapping="Wrap" Text="Account Number" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="PinNumBox" HorizontalAlignment="Center" Margin="0,160,0,0" TextWrapping="Wrap" Text="Pin Number" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="BalanceBox" HorizontalAlignment="Center" Margin="0,187,0,0" TextWrapping="Wrap" Text="Balance" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FirstNameBox" HorizontalAlignment="Left" Margin="400,79,0,0" TextWrapping="Wrap" Text="First Name" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.505,0.503"/>
+        <TextBox x:Name="LastNameBox" HorizontalAlignment="Left" Margin="400,106,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="AcctNoBox" HorizontalAlignment="Left" Margin="400,133,0,0" TextWrapping="Wrap" Text="Account Number" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="PinNumBox" HorizontalAlignment="Left" Margin="400,160,0,0" TextWrapping="Wrap" Text="Pin Number" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="BalanceBox" HorizontalAlignment="Left" Margin="400,187,0,0" TextWrapping="Wrap" Text="Balance" VerticalAlignment="Top" Width="120"/>
         <Separator HorizontalAlignment="Center" Height="15" Margin="0,266,0,0" VerticalAlignment="Top" Width="800"/>
-        <TextBox x:Name="IndexBox" HorizontalAlignment="Left" Margin="260,300,0,0" TextWrapping="Wrap" Text="Index?" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.195,-0.835"/>
-        <TextBlock x:Name="TotalNumText" HorizontalAlignment="Left" Margin="260,327,0,0" TextWrapping="Wrap" Text="Total Items" VerticalAlignment="Top"/>
+        <TextBox x:Name="IndexBox" HorizontalAlignment="Left" Margin="304,301,0,0" TextWrapping="Wrap" Text="Index?" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.195,-0.835"/>
+        <TextBlock x:Name="TotalNumText" HorizontalAlignment="Left" Margin="340,327,0,0" TextWrapping="Wrap" Text="Num of Items" VerticalAlignment="Top"/>
         <Button x:Name="GoBtn" Content="Go!" HorizontalAlignment="Left" Margin="472,299,0,0" VerticalAlignment="Top" Width="70" Click="GoBtn_Click"/>
-        <Image x:Name="ProfileImage" HorizontalAlignment="Left" Height="100" Margin="223,79,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image x:Name="ProfileImage" HorizontalAlignment="Left" Height="100" Margin="144,90,0,0" VerticalAlignment="Top" Width="100"/>
         <Image HorizontalAlignment="Left" Height="9" Margin="289,142,0,0" VerticalAlignment="Top" Width="0"/>
+        <TextBlock x:Name="TotalNumIndc" HorizontalAlignment="Left" Margin="260,327,0,0" TextWrapping="Wrap" Text="Total Items:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="FirstName" HorizontalAlignment="Left" Margin="277,80,0,0" TextWrapping="Wrap" Text="First Name:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="LastName" HorizontalAlignment="Left" Margin="277,107,0,0" TextWrapping="Wrap" Text="Last Name:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="AccountNumber" HorizontalAlignment="Left" Margin="276,135,0,0" TextWrapping="Wrap" Text="Account Number" VerticalAlignment="Top"/>
+        <TextBlock x:Name="PinNumber" HorizontalAlignment="Left" Margin="276,162,0,0" TextWrapping="Wrap" Text="PIN Number:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="Balance" HorizontalAlignment="Left" Margin="277,188,0,0" TextWrapping="Wrap" Text="Balance:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="Index" HorizontalAlignment="Left" Margin="260,302,0,0" TextWrapping="Wrap" Text="Index:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ErrorMsgBox" HorizontalAlignment="Center" Margin="0,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="499" Foreground="#FFE74A4A" Height="40" TextAlignment="Center"/>
 
     </Grid>
 </Window>
