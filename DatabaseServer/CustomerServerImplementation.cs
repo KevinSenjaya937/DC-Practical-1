@@ -13,17 +13,45 @@ namespace DatabaseServer
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     internal class CustomerServerImplementation : BankingInterface
     {
-        CustomerDatabase data = new CustomerDatabase();
+        CustomerDatabase data;
+        public CustomerServerImplementation()
+        {
+            this.data = new CustomerDatabase();
+        }
 
+        
         int BankingInterface.GetNumEntries() => data.GetNumRecords();
         public void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath)
         {
-            acctNo = data.GetAcctNoByIndex(index);
-            pin = data.GetPINByIndex(index);
-            bal = data.GetBalanceByIndex(index);
-            fName = data.GetFirstNameByIndex(index);
-            lName = data.GetLastNameByIndex(index);
-            profPicPath = data.GetProfPicPath(index);
+            try
+            {
+                acctNo = data.GetAcctNoByIndex(index);
+                pin = data.GetPINByIndex(index);
+                bal = data.GetBalanceByIndex(index);
+                fName = data.GetFirstNameByIndex(index);
+                lName = data.GetLastNameByIndex(index);
+                profPicPath = data.GetProfPicPath(index);
+            }
+            catch(ArgumentOutOfRangeException ex)
+            {
+                throw new FaultException<ArgumentOutOfRangeException>(ex, "Bad Index - GetValuesForEntry");
+            }
+                
+
+            // try catch arguement out of bounds
+        }
+
+        public int SearchCustomer(string lastName)
+        {
+            try
+            {
+                return data.GetCustomer(lastName);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new FaultException<ArgumentOutOfRangeException>(ex, "Bad Index - SearchCustomer");
+            }
+            
         }
     }
 }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientInterface", "ClientIn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfaceToDLL", "InterfaceToDLL\InterfaceToDLL.csproj", "{24C30FC1-A1DE-4880-817B-AFA93F11FC18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessTier", "BusinessTier\BusinessTier.csproj", "{F9FEE7C3-9B47-4182-A6E6-FA31F747087A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{24C30FC1-A1DE-4880-817B-AFA93F11FC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24C30FC1-A1DE-4880-817B-AFA93F11FC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24C30FC1-A1DE-4880-817B-AFA93F11FC18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9FEE7C3-9B47-4182-A6E6-FA31F747087A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9FEE7C3-9B47-4182-A6E6-FA31F747087A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9FEE7C3-9B47-4182-A6E6-FA31F747087A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9FEE7C3-9B47-4182-A6E6-FA31F747087A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

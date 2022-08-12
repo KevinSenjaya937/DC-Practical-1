@@ -21,7 +21,7 @@ namespace DC_Practical_1
 
             DatabaseGenerator generator = new DatabaseGenerator();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 100000; i++)
             { 
                 generator.GetNextAccount(out uint acctNo, out uint pin, out int balance, out string firstname, out string lastname, out string profPicPath);
 
@@ -39,6 +39,25 @@ namespace DC_Practical_1
         public int GetBalanceByIndex(int index) => cList[(int)index].balance;
         public string GetProfPicPath(int index) => cList[index].profPicPath;
         public int GetNumRecords() => cList.Count;
+
+        public int GetCustomer(string lastName)
+        {
+            int index = 0;
+            lastName = lastName.ToUpper();
+
+            foreach (Customer customer in cList)
+            {
+                
+                if (customer.lastname.ToUpper().Equals(lastName))
+                {
+                    Console.WriteLine("HERE", customer.lastname);
+                    break;
+                }
+                
+                index++;
+            }
+            return index;
+        }
     }
 
     

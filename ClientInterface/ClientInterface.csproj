@@ -97,17 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseServer\DatabaseServer.csproj">
-      <Project>{e12c13c6-2b79-4066-8121-3f0cc1c1fdc4}</Project>
-      <Name>DatabaseServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DC Practical 1\DC Practical 1.csproj">
-      <Project>{D933446D-95A1-4564-9FD6-38AA781F37A2}</Project>
-      <Name>DC Practical 1</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InterfaceToDLL\InterfaceToDLL.csproj">
-      <Project>{24c30fc1-a1de-4880-817b-afa93f11fc18}</Project>
-      <Name>InterfaceToDLL</Name>
+    <ProjectReference Include="..\BusinessTier\BusinessTier.csproj">
+      <Project>{f9fee7c3-9b47-4182-a6e6-fa31f747087a}</Project>
+      <Name>BusinessTier</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

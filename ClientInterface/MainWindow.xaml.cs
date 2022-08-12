@@ -12,10 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DatabaseServer;
-using System.ServiceModel;
-using InterfaceToDLL;
 using System.Drawing;
+using BusinessTier;
+using System.ServiceModel;
 
 namespace ClientInterface
 {
@@ -24,15 +23,15 @@ namespace ClientInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BankingInterface foob;
+        private BusinessServerInterface foob;
         public MainWindow()
         {
             InitializeComponent();
-            ChannelFactory<BankingInterface> foobFactory;
+            ChannelFactory<BusinessServerInterface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
 
-            string URL = "net.tcp://localhost:8100/CustomerService";
-            foobFactory = new ChannelFactory<BankingInterface>(tcp, URL);
+            string URL = "net.tcp://localhost:8200/BusinessService";
+            foobFactory = new ChannelFactory<BusinessServerInterface>(tcp, URL);
             foob = foobFactory.CreateChannel();
 
             TotalNumText.Text = foob.GetNumEntries().ToString();
@@ -83,6 +82,43 @@ namespace ClientInterface
                 Console.WriteLine(ex.Message);
                 ErrorMsgBox.Text = "Index entered is not in the correct format. Please try again.";
             }
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string fName = "", lName = "", profPicPath = "";
+            int bal = 0;
+            uint acct = 0, pin = 0;
+
+            try
+            {
+                int index = foob.SearchCustomer(SearchLastNameBox.Text);
+                foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
+
+                FirstNameBox.Text = fName;
+                LastNameBox.Text = lName;
+                BalanceBox.Text = bal.ToString("C");
+                AcctNoBox.Text = acct.ToString("D4");
+                PinNumBox.Text = pin.ToString("D4");
+                IndexBox.Text = index.ToString();
+
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(profPicPath);
+                profilePicture.EndInit();
+
+                ProfileImage.Source = profilePicture;
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex.Message);
+                ErrorMsgBox.Text = "Bad Input detected";
+            }
+            catch (FaultException<ArgumentOutOfRangeException>)
+            {
+                ErrorMsgBox.Text = "Out of Range";
+            }
+            
         }
     }
 }

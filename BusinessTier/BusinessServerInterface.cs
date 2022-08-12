@@ -4,20 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
-using System.Drawing;
 
-namespace InterfaceToDLL
+namespace BusinessTier
 {
     [ServiceContract]
-    public interface BankingInterface
+    public interface BusinessServerInterface
     {
         [OperationContract]
         int GetNumEntries();
-
         [OperationContract]
-        [FaultContract(typeof(ArgumentOutOfRangeException))]
         void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
-
         [OperationContract]
         int SearchCustomer(string lastName);
     }
