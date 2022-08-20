@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using InterfaceToDLL;
+using System.ServiceModel;
 
 namespace DC_Practical_1
 {
@@ -39,26 +41,5 @@ namespace DC_Practical_1
         public int GetBalanceByIndex(int index) => cList[(int)index].balance;
         public string GetProfPicPath(int index) => cList[index].profPicPath;
         public int GetNumRecords() => cList.Count;
-
-        public int GetCustomer(string lastName)
-        {
-            int index = 0;
-            lastName = lastName.ToUpper();
-
-            foreach (Customer customer in cList)
-            {
-                
-                if (customer.lastname.ToUpper().Equals(lastName))
-                {
-                    Console.WriteLine("HERE", customer.lastname);
-                    break;
-                }
-                
-                index++;
-            }
-            return index;
-        }
     }
-
-    
 }

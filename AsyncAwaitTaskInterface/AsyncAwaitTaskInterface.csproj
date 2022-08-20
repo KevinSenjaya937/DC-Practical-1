@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{121FF40D-B1A3-4C39-86FB-A078458F545C}</ProjectGuid>
+    <ProjectGuid>{A5397CFE-0E71-418D-B415-C6794E63A1C2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ClientInterface</RootNamespace>
-    <AssemblyName>ClientInterface</AssemblyName>
+    <RootNamespace>AsyncAwaitTaskInterface</RootNamespace>
+    <AssemblyName>AsyncAwaitTaskInterface</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,7 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -101,9 +100,9 @@
       <Project>{f9fee7c3-9b47-4182-a6e6-fa31f747087a}</Project>
       <Name>BusinessTier</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InterfaceToDLL\InterfaceToDLL.csproj">
-      <Project>{24c30fc1-a1de-4880-817b-afa93f11fc18}</Project>
-      <Name>InterfaceToDLL</Name>
+    <ProjectReference Include="..\DC Practical 1\DC Practical 1.csproj">
+      <Project>{d933446d-95a1-4564-9fd6-38aa781f37a2}</Project>
+      <Name>DC Practical 1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

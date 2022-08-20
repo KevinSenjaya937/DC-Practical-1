@@ -12,19 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
-using BusinessTier;
 using System.ServiceModel;
-using InterfaceToDLL;
+using DC_Practical_1;
+using BusinessTier;
 
-namespace ClientInterface
+namespace AsyncAwaitTaskInterface
 {
+    public delegate Customer Search(string value);
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         private BusinessServerInterface foob;
+        private string searchvalue;
         public MainWindow()
         {
             InitializeComponent();
@@ -36,26 +37,19 @@ namespace ClientInterface
             foob = foobFactory.CreateChannel();
 
             TotalNumText.Text = foob.GetNumEntries().ToString();
-
         }
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
         {
-            string fName = "", lName = "", profPicPath = "";
-            int bal = 0;
-            uint acct = 0, pin = 0;
-            
-
-
             try
             {
                 int index = Int32.Parse(IndexBox.Text);
 
-                if (index > 0 && index < 21)
+                if (index > 0 && index < 100001)
                 {
                     ErrorMsgBox.Text = String.Empty;
-                    
-                    foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
+
+                    foob.GetValuesForEntry(index, out uint acct, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
 
                     FirstNameBox.Text = fName;
                     LastNameBox.Text = lName;
@@ -67,77 +61,71 @@ namespace ClientInterface
                     profilePicture.BeginInit();
                     profilePicture.UriSource = new Uri(profPicPath);
                     profilePicture.EndInit();
-                
+
                     ProfileImage.Source = profilePicture;
-                } 
+                }
                 else
                 {
                     ErrorMsgBox.Text = "Index entered is out of range. Please check the total number of items.";
-
                 }
-
             }
-            
-            catch(FormatException ex)
+            catch (FormatException ex)
             {
                 Console.WriteLine(ex.Message);
-                ErrorMsgBox.Text = "Index entered is not in the correct format. Please try again.";
+
             }
         }
 
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        private async void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-
             var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
 
             if (regexItem.IsMatch(SearchLastNameBox.Text))
             {
-                ErrorMsgBox.Text = String.Empty;
-                try
-                {
-                    foob.SearchCustomer(SearchLastNameBox.Text, out uint acctNumber, out uint pinNumber, out int balance, out string firstName, out string lastName, out string profilePicturePath);
-
-                    if (acctNumber == 0)
-                    {
-                        ErrorMsgBox.Text = "No user with matching last name found";
-                    }
-                    else
-                    {
-                        FirstNameBox.Text = firstName;
-                        LastNameBox.Text = lastName;
-                        BalanceBox.Text = balance.ToString("C");
-                        AcctNoBox.Text = acctNumber.ToString("D4");
-                        PinNumBox.Text = pinNumber.ToString("D4");
-                        
-
-                        BitmapImage profilePicture = new BitmapImage();
-                        profilePicture.BeginInit();
-                        profilePicture.UriSource = new Uri(profilePicturePath);
-                        profilePicture.EndInit();
-
-                        ProfileImage.Source = profilePicture;
-                    }
-                    
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    ErrorMsgBox.Text = "Bad Input detected";
-                }
-                catch (FaultException<ArgumentOutOfRangeException>)
-                {
-                    ErrorMsgBox.Text = "Out of Range";
-                }
-                catch (FaultException<KeyNotFoundException>)
-                {
-                    ErrorMsgBox.Text = "No user with matching last name found";
-                }
+                searchvalue = SearchLastNameBox.Text;
+                Task<Customer> task = new Task<Customer>(SearchDB);
+                task.Start();
+                StatusLabel.Content = "Search started.............";
+                Customer customer = await task;
+                UpdateGUI(customer);
+                StatusLabel.Content = "Search ended...............";
             }
             else
             {
                 ErrorMsgBox.Text = "Bad Input Detected. Input must be a valid last name with no special characters.";
             }
-            
+        }
+
+        private Customer SearchDB()
+        {
+            string firstName, lastName, profilePicPath;
+            uint pin, acctNum;
+            int bal;
+            foob.SearchCustomer(searchvalue, out acctNum, out pin, out bal, out firstName, out lastName, out profilePicPath);
+
+            if (acctNum != 0)
+            {
+                Customer customer = new Customer
+                {
+                    acctNo = acctNum,
+                    pin = pin,
+                    balance = bal,
+                    firstname = firstName,
+                    lastname = lastName,
+                    profPicPath = profilePicPath
+                };
+                return customer;
+            }
+            return null;
+        }
+
+        private void UpdateGUI(Customer customer)
+        {
+            FirstNameBox.Text = customer.firstname;
+            LastNameBox.Text = customer.lastname;
+            AcctNoBox.Text = customer.acctNo.ToString("D4");
+            PinNumBox.Text = customer.pin.ToString("D4");
+            BalanceBox.Text = customer.balance.ToString("C");
         }
     }
 }

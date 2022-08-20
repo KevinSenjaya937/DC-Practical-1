@@ -17,8 +17,6 @@ namespace InterfaceToDLL
         [OperationContract]
         [FaultContract(typeof(ArgumentOutOfRangeException))]
         void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
-
-        [OperationContract]
-        int SearchCustomer(string lastName);
     }
 }
+

@@ -36,22 +36,6 @@ namespace DatabaseServer
             {
                 throw new FaultException<ArgumentOutOfRangeException>(ex, "Bad Index - GetValuesForEntry");
             }
-                
-
-            // try catch arguement out of bounds
-        }
-
-        public int SearchCustomer(string lastName)
-        {
-            try
-            {
-                return data.GetCustomer(lastName);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw new FaultException<ArgumentOutOfRangeException>(ex, "Bad Index - SearchCustomer");
-            }
-            
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BusinessTier
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Banking Server");
+            Console.WriteLine("Welcome to the Business Tier Server");
             ServiceHost host;
             NetTcpBinding tcp = new NetTcpBinding();
 
