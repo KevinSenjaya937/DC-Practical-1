@@ -101,10 +101,10 @@ namespace AsyncAwaitTaskInterface
             string firstName, lastName, profilePicPath;
             uint pin, acctNum;
             int bal;
-            foob.SearchCustomer(searchvalue, out acctNum, out pin, out bal, out firstName, out lastName, out profilePicPath);
 
-            if (acctNum != 0)
+            try
             {
+                foob.SearchCustomer(searchvalue, out acctNum, out pin, out bal, out firstName, out lastName, out profilePicPath);
                 Customer customer = new Customer
                 {
                     acctNo = acctNum,
@@ -116,16 +116,33 @@ namespace AsyncAwaitTaskInterface
                 };
                 return customer;
             }
-            return null;
+            catch (FaultException)
+            {
+                return null;
+            }
         }
 
         private void UpdateGUI(Customer customer)
         {
-            FirstNameBox.Text = customer.firstname;
-            LastNameBox.Text = customer.lastname;
-            AcctNoBox.Text = customer.acctNo.ToString("D4");
-            PinNumBox.Text = customer.pin.ToString("D4");
-            BalanceBox.Text = customer.balance.ToString("C");
+            if (customer == null)
+            {
+                ErrorMsgBox.Text = "No matching user found.";
+            }
+            else
+            {
+                FirstNameBox.Text = customer.firstname;
+                LastNameBox.Text = customer.lastname;
+                AcctNoBox.Text = customer.acctNo.ToString("D4");
+                PinNumBox.Text = customer.pin.ToString("D4");
+                BalanceBox.Text = customer.balance.ToString("C");
+
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(customer.profPicPath);
+                profilePicture.EndInit();
+
+                ProfileImage.Source = profilePicture;
+            }
         }
     }
 }

@@ -44,44 +44,35 @@ namespace ClientInterface
             string fName = "", lName = "", profPicPath = "";
             int bal = 0;
             uint acct = 0, pin = 0;
-            
-
 
             try
             {
                 int index = Int32.Parse(IndexBox.Text);
-
-                if (index > 0 && index < 21)
-                {
-                    ErrorMsgBox.Text = String.Empty;
+                ErrorMsgBox.Text = String.Empty;
                     
-                    foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
+                foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
 
-                    FirstNameBox.Text = fName;
-                    LastNameBox.Text = lName;
-                    BalanceBox.Text = bal.ToString("C");
-                    AcctNoBox.Text = acct.ToString("D4");
-                    PinNumBox.Text = pin.ToString("D4");
+                FirstNameBox.Text = fName;
+                LastNameBox.Text = lName;
+                BalanceBox.Text = bal.ToString("C");
+                AcctNoBox.Text = acct.ToString("D4");
+                PinNumBox.Text = pin.ToString("D4");
 
-                    BitmapImage profilePicture = new BitmapImage();
-                    profilePicture.BeginInit();
-                    profilePicture.UriSource = new Uri(profPicPath);
-                    profilePicture.EndInit();
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(profPicPath);
+                profilePicture.EndInit();
                 
-                    ProfileImage.Source = profilePicture;
-                } 
-                else
-                {
-                    ErrorMsgBox.Text = "Index entered is out of range. Please check the total number of items.";
-
-                }
-
+                ProfileImage.Source = profilePicture;
             }
-            
             catch(FormatException ex)
             {
                 Console.WriteLine(ex.Message);
                 ErrorMsgBox.Text = "Index entered is not in the correct format. Please try again.";
+            }
+            catch(FaultException ex)
+            {
+                ErrorMsgBox.Text = ex.Message.ToString();
             }
         }
 
@@ -109,7 +100,6 @@ namespace ClientInterface
                         AcctNoBox.Text = acctNumber.ToString("D4");
                         PinNumBox.Text = pinNumber.ToString("D4");
                         
-
                         BitmapImage profilePicture = new BitmapImage();
                         profilePicture.BeginInit();
                         profilePicture.UriSource = new Uri(profilePicturePath);
@@ -117,20 +107,10 @@ namespace ClientInterface
 
                         ProfileImage.Source = profilePicture;
                     }
-                    
                 }
-                catch (FormatException ex)
+                catch (FaultException ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    ErrorMsgBox.Text = "Bad Input detected";
-                }
-                catch (FaultException<ArgumentOutOfRangeException>)
-                {
-                    ErrorMsgBox.Text = "Out of Range";
-                }
-                catch (FaultException<KeyNotFoundException>)
-                {
-                    ErrorMsgBox.Text = "No user with matching last name found";
+                    ErrorMsgBox.Text = ex.Reason.ToString();
                 }
             }
             else

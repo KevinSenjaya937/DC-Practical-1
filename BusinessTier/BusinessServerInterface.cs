@@ -17,6 +17,5 @@ namespace BusinessTier
         void GetValuesForEntry(int index, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
         [OperationContract]
         void SearchCustomer(string searchValue, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
-        [MethodImpl(MethodImplOptions.Synchronized)]
     }
 }

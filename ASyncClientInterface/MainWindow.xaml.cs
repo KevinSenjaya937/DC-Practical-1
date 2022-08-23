@@ -81,7 +81,7 @@ namespace ASyncClientInterface
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
-            
+
             if (regexItem.IsMatch(SearchLastNameBox.Text))
             {
                 switchOnReadOnly(true);
@@ -99,9 +99,10 @@ namespace ASyncClientInterface
 
         private Customer SearchDB(string value)
         {
-            foob.SearchCustomer(value, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
-            if (acctNo != 0)
+            try
             {
+                foob.SearchCustomer(value, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
+
                 Customer customer = new Customer
                 {
                     acctNo = acctNo,
@@ -113,22 +114,39 @@ namespace ASyncClientInterface
                 };
                 return customer;
             }
-            return null;
+            catch (FaultException ex)
+            {
+                ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
+                return null;
+            }
         }
 
         private void UpdateGUI(Customer customer)
         {
-            FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.Text = customer.firstname));
-            LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.Text = customer.lastname));
-            BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.Text = customer.balance.ToString("C")));
-            AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.Text = customer.acctNo.ToString("D4")));
-            PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.Text = customer.pin.ToString("D4")));
-        
-            ProfileImage.Dispatcher.Invoke(new Action(() =>
+            if (customer != null)
             {
-                BitmapImage bitmapImage = new BitmapImage(new Uri(customer.profPicPath, UriKind.Relative));
-                ProfileImage.Source = bitmapImage;
-            }));
+                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.Text = customer.firstname));
+                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.Text = customer.lastname));
+                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.Text = customer.balance.ToString("C")));
+                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.Text = customer.acctNo.ToString("D4")));
+                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.Text = customer.pin.ToString("D4")));
+
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(customer.profPicPath);
+                profilePicture.EndInit();
+                profilePicture.Freeze();
+                ProfileImage.Dispatcher.Invoke(new Action(() => ProfileImage.Source = profilePicture));
+            }
+            else
+            {
+                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.Text = String.Empty));
+                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.Text = String.Empty));
+                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.Text = String.Empty));
+                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.Text = String.Empty));
+                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.Text = String.Empty));
+                ProfileImage.Dispatcher.Invoke(new Action(() => ProfileImage.Source =  null));
+            }
         }
 
         private void onSearchCompletion(IAsyncResult asyncResult)
@@ -140,7 +158,7 @@ namespace ASyncClientInterface
             {
                 search = (Search)asyncObject.AsyncDelegate;
                 customer = search.EndInvoke(asyncObject);
-                UpdateGUI(customer);
+                UpdateGUI(customer);      
             }
             asyncObject.AsyncWaitHandle.Close();
             switchOnReadOnly(false);

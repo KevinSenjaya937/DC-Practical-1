@@ -16,6 +16,7 @@ namespace BusinessTier
         public List<string> Logs;
         public BusinessServerImplementation()
         {
+            this.Logs = new List<string>();
             ChannelFactory<BankingInterface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
 
@@ -39,13 +40,7 @@ namespace BusinessTier
             }
             catch (FaultException<ArgumentOutOfRangeException>)
             {
-                Log("Bad Index. Index provided out of range of customer list indexing.");
-                acctNo = 0;
-                pin = 0;
-                bal = 0;
-                fName = String.Empty;
-                lName = String.Empty;
-                profPicPath = String.Empty;
+                throw new FaultException("Bad Index. Index provided is out of range of database.");
             }
 
         }
@@ -54,8 +49,10 @@ namespace BusinessTier
         {
             int index = -1;
             Boolean found = false;
-            for (int i = 0; i < foob.GetNumEntries(); i++)
+            int entries = foob.GetNumEntries();
+            for (int i = 0; i < entries; i++)
             {
+                Console.WriteLine(i);
                 foob.GetValuesForEntry(i, out _, out _, out _, out _, out string lastName, out _);
                 if (lastName.ToUpper().Equals(searchValue.ToUpper()))
                 {
@@ -64,6 +61,7 @@ namespace BusinessTier
                     break;
                 }
             }
+
             if (found)
             {
                 Log("Matching customer found. Returning customer's details to user.");
@@ -71,13 +69,8 @@ namespace BusinessTier
             }
             else
             {
-                Log("No natching customer found. Returning dummy data.");
-                acctNo = 0;
-                pin = 0;
-                bal = 0;
-                fName = String.Empty;
-                lName = String.Empty;
-                profPicPath = String.Empty;
+                Log("No matching customer found. Returning dummy data.");
+                throw new FaultException("No customer with matching last name found.");
             }
         }
 
