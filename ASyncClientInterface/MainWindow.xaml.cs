@@ -81,7 +81,7 @@ namespace ASyncClientInterface
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
-
+            
             if (regexItem.IsMatch(SearchLastNameBox.Text))
             {
                 switchOnReadOnly(true);
@@ -90,11 +90,13 @@ namespace ASyncClientInterface
                 AsyncCallback callback;
                 callback = onSearchCompletion;
                 IAsyncResult result = search.BeginInvoke(SearchLastNameBox.Text, callback, null);
+                StatusLabel.Content = "Search Started...";
             }
             else
             {
                 ErrorMsgBox.Text = "Bad Input Detected. Input must be a valid last name with no special characters.";
             }
+            
         }
 
         private Customer SearchDB(string value)
@@ -140,11 +142,11 @@ namespace ASyncClientInterface
             }
             else
             {
-                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.Text = String.Empty));
-                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.Text = String.Empty));
-                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.Text = String.Empty));
-                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.Text = String.Empty));
-                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.Text = String.Empty));
+                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.Text = "First Name"));
+                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.Text = "Last Name"));
+                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.Text = "Balance"));
+                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.Text = "Account Number"));
+                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.Text = "Pin Number"));
                 ProfileImage.Dispatcher.Invoke(new Action(() => ProfileImage.Source =  null));
             }
         }
@@ -162,27 +164,34 @@ namespace ASyncClientInterface
             }
             asyncObject.AsyncWaitHandle.Close();
             switchOnReadOnly(false);
+            StatusLabel.Dispatcher.Invoke(new Action(() => StatusLabel.Content = "Search Ended..."));
         }
 
         private void switchOnReadOnly(Boolean switchBool)
         {
             if (switchBool)
             {
+                SearchBtn.Dispatcher.Invoke(new Action(() => SearchBtn.IsEnabled = false));
+                GoBtn.Dispatcher.Invoke(new Action(() => GoBtn.IsEnabled = false));
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = true));
                 LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = true));
                 BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = true));
                 AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.IsReadOnly = true));
                 PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.IsReadOnly = true));
                 IndexBox.Dispatcher.Invoke(new Action(() => IndexBox.IsReadOnly = true));
+                SearchLastNameBox.Dispatcher.Invoke(new Action(() => SearchLastNameBox.IsReadOnly = true));
             }
             else
             {
+                SearchBtn.Dispatcher.Invoke(new Action(() => SearchBtn.IsEnabled = true));
+                GoBtn.Dispatcher.Invoke(new Action(() => GoBtn.IsEnabled = true));
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = false));
                 LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = false));
                 BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = false));
                 AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.IsReadOnly = false));
                 PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.IsReadOnly = false));
                 IndexBox.Dispatcher.Invoke(new Action(() => IndexBox.IsReadOnly = false));
+                SearchLastNameBox.Dispatcher.Invoke(new Action(() => SearchLastNameBox.IsReadOnly = false));
             }
         }
     }

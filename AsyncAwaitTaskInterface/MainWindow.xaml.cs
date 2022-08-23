@@ -74,6 +74,10 @@ namespace AsyncAwaitTaskInterface
                 Console.WriteLine(ex.Message);
 
             }
+            catch (FaultException ex)
+            {
+                ErrorMsgBox.Text = ex.Message.ToString();
+            }
         }
 
         private async void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -84,11 +88,19 @@ namespace AsyncAwaitTaskInterface
             {
                 searchvalue = SearchLastNameBox.Text;
                 Task<Customer> task = new Task<Customer>(SearchDB);
+                switchOnReadOnly(true);
                 task.Start();
                 StatusLabel.Content = "Search started.............";
-                Customer customer = await task;
-                UpdateGUI(customer);
-                StatusLabel.Content = "Search ended...............";
+                if (await Task.WhenAny(task, Task.Delay(100000)) == task)
+                {
+                    Customer customer = task.Result;
+                    UpdateGUI(customer);
+                    StatusLabel.Content = "Search ended...............";
+                }
+                else
+                {
+                    StatusLabel.Content = "Search Timed Out";
+                }
             }
             else
             {
@@ -116,8 +128,9 @@ namespace AsyncAwaitTaskInterface
                 };
                 return customer;
             }
-            catch (FaultException)
+            catch (FaultException ex)
             {
+                ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
                 return null;
             }
         }
@@ -126,7 +139,12 @@ namespace AsyncAwaitTaskInterface
         {
             if (customer == null)
             {
-                ErrorMsgBox.Text = "No matching user found.";
+                FirstNameBox.Text = "First Name";
+                LastNameBox.Text = "Last Name";
+                AcctNoBox.Text = "Account Number";
+                PinNumBox.Text = "Pin Number";
+                BalanceBox.Text = "Balance";
+                ProfileImage.Source = null;
             }
             else
             {
@@ -142,6 +160,35 @@ namespace AsyncAwaitTaskInterface
                 profilePicture.EndInit();
 
                 ProfileImage.Source = profilePicture;
+            }
+            switchOnReadOnly(false);
+        }
+
+        private void switchOnReadOnly(Boolean switchBool)
+        {
+            if (switchBool)
+            {
+                SearchBtn.IsEnabled = false;
+                GoBtn.IsEnabled = false;
+                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = true));
+                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = true));
+                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = true));
+                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.IsReadOnly = true));
+                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.IsReadOnly = true));
+                IndexBox.Dispatcher.Invoke(new Action(() => IndexBox.IsReadOnly = true));
+                SearchLastNameBox.Dispatcher.Invoke(new Action(() => SearchLastNameBox.IsReadOnly = true));
+            }
+            else
+            {
+                SearchBtn.IsEnabled = true;
+                GoBtn.IsEnabled = true;
+                FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = false));
+                LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = false));
+                BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = false));
+                AcctNoBox.Dispatcher.Invoke(new Action(() => AcctNoBox.IsReadOnly = false));
+                PinNumBox.Dispatcher.Invoke(new Action(() => PinNumBox.IsReadOnly = false));
+                IndexBox.Dispatcher.Invoke(new Action(() => IndexBox.IsReadOnly = false));
+                SearchLastNameBox.Dispatcher.Invoke(new Action(() => SearchLastNameBox.IsReadOnly = false));
             }
         }
     }

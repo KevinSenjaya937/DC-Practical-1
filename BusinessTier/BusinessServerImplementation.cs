@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DatabaseServer;
 using System.ServiceModel;
 using InterfaceToDLL;
+using System.Runtime.CompilerServices;
 
 namespace BusinessTier
 {
@@ -36,10 +37,11 @@ namespace BusinessTier
             try
             {
                 Log("Using an index of a list to return a customer's details.");
-                foob.GetValuesForEntry(index, out acctNo, out pin, out bal, out fName, out lName, out profPicPath);
+                foob.GetValuesForEntry(index-1, out acctNo, out pin, out bal, out fName, out lName, out profPicPath);
             }
             catch (FaultException<ArgumentOutOfRangeException>)
             {
+                Log("Bad index was provided. Throwing a FaultException");
                 throw new FaultException("Bad Index. Index provided is out of range of database.");
             }
 
@@ -69,15 +71,17 @@ namespace BusinessTier
             }
             else
             {
-                Log("No matching customer found. Returning dummy data.");
+                Log("No matching customer found. Throwing FaultException.");
                 throw new FaultException("No customer with matching last name found.");
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         void Log(string logString)
         {
             LogNumber++;
             Logs.Add(logString + " Number of tasks performed: " + LogNumber);
+
         }
     }
 }

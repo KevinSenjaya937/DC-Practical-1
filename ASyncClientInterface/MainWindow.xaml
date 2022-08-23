@@ -27,8 +27,9 @@
         <TextBlock x:Name="Index" HorizontalAlignment="Left" Margin="260,302,0,0" TextWrapping="Wrap" Text="Index:" VerticalAlignment="Top"/>
         <TextBlock x:Name="ErrorMsgBox" HorizontalAlignment="Center" Margin="0,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="499" Foreground="#FFE74A4A" Height="40" TextAlignment="Center"/>
         <TextBox x:Name="SearchLastNameBox" HorizontalAlignment="Left" Margin="400,39,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
-        <TextBlock x:Name="SearchByLastNameText" HorizontalAlignment="Left" Margin="276,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Search By Last Name"/><Run Language="en-au" Text=": "/></TextBlock>
+        <TextBlock x:Name="SearchByLastNameText" HorizontalAlignment="Left" Margin="244,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Search By Last Name"/><Run Language="en-au" Text=": "/></TextBlock>
         <Button x:Name="SearchBtn" Content="Search" HorizontalAlignment="Left" Margin="534,38,0,0" VerticalAlignment="Top" Click="SearchBtn_Click"/>
+        <Label x:Name="StatusLabel" Content="" HorizontalAlignment="Center" Margin="0,357,0,0" VerticalAlignment="Top" Width="500"/>
 
     </Grid>
 </Window>
