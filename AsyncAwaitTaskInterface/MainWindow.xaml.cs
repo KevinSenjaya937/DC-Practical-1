@@ -45,33 +45,26 @@ namespace AsyncAwaitTaskInterface
             {
                 int index = Int32.Parse(IndexBox.Text);
 
-                if (index > 0 && index < 100001)
-                {
-                    ErrorMsgBox.Text = String.Empty;
+                ErrorMsgBox.Text = String.Empty;
 
-                    foob.GetValuesForEntry(index, out uint acct, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
+                foob.GetValuesForEntry(index, out uint acct, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
 
-                    FirstNameBox.Text = fName;
-                    LastNameBox.Text = lName;
-                    BalanceBox.Text = bal.ToString("C");
-                    AcctNoBox.Text = acct.ToString("D4");
-                    PinNumBox.Text = pin.ToString("D4");
+                FirstNameBox.Text = fName;
+                LastNameBox.Text = lName;
+                BalanceBox.Text = bal.ToString("C");
+                AcctNoBox.Text = acct.ToString("D4");
+                PinNumBox.Text = pin.ToString("D4");
 
-                    BitmapImage profilePicture = new BitmapImage();
-                    profilePicture.BeginInit();
-                    profilePicture.UriSource = new Uri(profPicPath);
-                    profilePicture.EndInit();
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(profPicPath);
+                profilePicture.EndInit();
 
-                    ProfileImage.Source = profilePicture;
-                }
-                else
-                {
-                    ErrorMsgBox.Text = "Index entered is out of range. Please check the total number of items.";
-                }
+                ProfileImage.Source = profilePicture;
             }
             catch (FormatException ex)
             {
-                Console.WriteLine(ex.Message);
+                ErrorMsgBox.Text = ex.Message.ToString();
 
             }
             catch (FaultException ex)
@@ -82,9 +75,7 @@ namespace AsyncAwaitTaskInterface
 
         private async void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
-
-            if (regexItem.IsMatch(SearchLastNameBox.Text))
+            try
             {
                 searchvalue = SearchLastNameBox.Text;
                 Task<Customer> task = new Task<Customer>(SearchDB);
@@ -102,9 +93,9 @@ namespace AsyncAwaitTaskInterface
                     StatusLabel.Content = "Search Timed Out";
                 }
             }
-            else
+            catch (FaultException ex)
             {
-                ErrorMsgBox.Text = "Bad Input Detected. Input must be a valid last name with no special characters.";
+                ErrorMsgBox.Text = ex.Reason.ToString();
             }
         }
 

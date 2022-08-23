@@ -15,6 +15,7 @@ namespace BusinessTier
         private BankingInterface foob;
         public uint LogNumber = 0;
         public List<string> Logs;
+
         public BusinessServerImplementation()
         {
             this.Logs = new List<string>();
@@ -44,36 +45,44 @@ namespace BusinessTier
                 Log("Bad index was provided. Throwing a FaultException");
                 throw new FaultException("Bad Index. Index provided is out of range of database.");
             }
-
         }
 
         void BusinessServerInterface.SearchCustomer(string searchValue, out uint acctNo, out uint pin, out int bal, out string fName, out string lName, out string profPicPath)
         {
-            int index = -1;
-            Boolean found = false;
-            int entries = foob.GetNumEntries();
-            for (int i = 0; i < entries; i++)
-            {
-                Console.WriteLine(i);
-                foob.GetValuesForEntry(i, out _, out _, out _, out _, out string lastName, out _);
-                if (lastName.ToUpper().Equals(searchValue.ToUpper()))
-                {
-                    index = i;
-                    found = true;
-                    break;
-                }
-            }
+            var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
 
-            if (found)
+            if (regexItem.IsMatch(searchValue))
             {
-                Log("Matching customer found. Returning customer's details to user.");
-                foob.GetValuesForEntry(index, out acctNo, out pin, out bal, out fName, out lName, out profPicPath);
+                int index = -1;
+                Boolean found = false;
+                int entries = foob.GetNumEntries();
+                for (int i = 0; i < entries; i++)
+                {
+                    Console.WriteLine(i);
+                    foob.GetValuesForEntry(i, out _, out _, out _, out _, out string lastName, out _);
+                    if (lastName.ToUpper().Equals(searchValue.ToUpper()))
+                    {
+                        index = i;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found)
+                {
+                    Log("Matching customer found. Returning customer's details to user.");
+                    foob.GetValuesForEntry(index, out acctNo, out pin, out bal, out fName, out lName, out profPicPath);
+                }
+                else
+                {
+                    Log("No matching customer found. Throwing FaultException.");
+                    throw new FaultException("No customer with matching last name found.");
+                }
             }
             else
             {
-                Log("No matching customer found. Throwing FaultException.");
-                throw new FaultException("No customer with matching last name found.");
+                throw new FaultException("Bad Input Detected. Input must be a valid last name with no special characters.");
             }
+
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -81,7 +90,6 @@ namespace BusinessTier
         {
             LogNumber++;
             Logs.Add(logString + " Number of tasks performed: " + LogNumber);
-
         }
     }
 }

@@ -47,34 +47,30 @@ namespace ASyncClientInterface
             {
                 int index = Int32.Parse(IndexBox.Text);
 
-                if (index > 0 && index < 100001)
-                {
-                    ErrorMsgBox.Text = String.Empty;
+                ErrorMsgBox.Text = String.Empty;
 
-                    foob.GetValuesForEntry(index, out uint acct, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
+                foob.GetValuesForEntry(index, out uint acct, out uint pin, out int bal, out string fName, out string lName, out string profPicPath);
 
-                    FirstNameBox.Text = fName;
-                    LastNameBox.Text = lName;
-                    BalanceBox.Text = bal.ToString("C");
-                    AcctNoBox.Text = acct.ToString("D4");
-                    PinNumBox.Text = pin.ToString("D4");
+                FirstNameBox.Text = fName;
+                LastNameBox.Text = lName;
+                BalanceBox.Text = bal.ToString("C");
+                AcctNoBox.Text = acct.ToString("D4");
+                PinNumBox.Text = pin.ToString("D4");
 
-                    BitmapImage profilePicture = new BitmapImage();
-                    profilePicture.BeginInit();
-                    profilePicture.UriSource = new Uri(profPicPath);
-                    profilePicture.EndInit();
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(profPicPath);
+                profilePicture.EndInit();
 
-                    ProfileImage.Source = profilePicture;
-                }
-                else
-                {
-                    ErrorMsgBox.Text = "Index entered is out of range. Please check the total number of items.";
-                }
+                ProfileImage.Source = profilePicture;
             }
             catch (FormatException ex)
             {
-                Console.WriteLine(ex.Message);
-                ErrorMsgBox.Text = "Index entered is not in the correct format. Please try again.";
+                ErrorMsgBox.Text = ex.Message.ToString();
+            }
+            catch (FaultException ex)
+            {
+                ErrorMsgBox.Text = ex.Reason.ToString();
             }
         }
 
@@ -82,21 +78,19 @@ namespace ASyncClientInterface
         {
             var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
             
-            if (regexItem.IsMatch(SearchLastNameBox.Text))
+            try
             {
                 switchOnReadOnly(true);
-                
                 search = SearchDB;
                 AsyncCallback callback;
                 callback = onSearchCompletion;
                 IAsyncResult result = search.BeginInvoke(SearchLastNameBox.Text, callback, null);
                 StatusLabel.Content = "Search Started...";
             }
-            else
+            catch (FaultException ex)
             {
-                ErrorMsgBox.Text = "Bad Input Detected. Input must be a valid last name with no special characters.";
+                ErrorMsgBox.Text = ex.Reason.ToString();
             }
-            
         }
 
         private Customer SearchDB(string value)
