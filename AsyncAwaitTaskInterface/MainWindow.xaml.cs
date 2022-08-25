@@ -16,6 +16,7 @@ using System.ServiceModel;
 using DC_Practical_1;
 using BusinessTier;
 
+
 namespace AsyncAwaitTaskInterface
 {
     public delegate Customer Search(string value);
@@ -31,12 +32,15 @@ namespace AsyncAwaitTaskInterface
             InitializeComponent();
             ChannelFactory<BusinessServerInterface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
+            tcp.OpenTimeout = new TimeSpan(1, 0, 0);
+            tcp.SendTimeout = new TimeSpan(1, 0, 0);
 
             string URL = "net.tcp://localhost:8200/BusinessService";
             foobFactory = new ChannelFactory<BusinessServerInterface>(tcp, URL);
             foob = foobFactory.CreateChannel();
 
             TotalNumText.Text = foob.GetNumEntries().ToString();
+            
         }
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
@@ -161,6 +165,7 @@ namespace AsyncAwaitTaskInterface
             {
                 SearchBtn.IsEnabled = false;
                 GoBtn.IsEnabled = false;
+                SearchProgressBar.IsIndeterminate = true;
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = true));
                 LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = true));
                 BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = true));
@@ -173,6 +178,7 @@ namespace AsyncAwaitTaskInterface
             {
                 SearchBtn.IsEnabled = true;
                 GoBtn.IsEnabled = true;
+                SearchProgressBar.IsIndeterminate = false;
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = false));
                 LastNameBox.Dispatcher.Invoke(new Action(() => LastNameBox.IsReadOnly = false));
                 BalanceBox.Dispatcher.Invoke(new Action(() => BalanceBox.IsReadOnly = false));

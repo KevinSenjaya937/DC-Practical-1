@@ -29,7 +29,8 @@
         <TextBox x:Name="SearchLastNameBox" HorizontalAlignment="Left" Margin="400,39,0,0" TextWrapping="Wrap" Text="Last Name" VerticalAlignment="Top" Width="120"/>
         <TextBlock x:Name="SearchByLastNameText" HorizontalAlignment="Left" Margin="244,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Search By Last Name"/><Run Language="en-au" Text=": "/></TextBlock>
         <Button x:Name="SearchBtn" Content="Search" HorizontalAlignment="Left" Margin="534,38,0,0" VerticalAlignment="Top" Click="SearchBtn_Click"/>
-        <Label x:Name="StatusLabel" Content="" HorizontalAlignment="Center" Margin="0,357,0,0" VerticalAlignment="Top" Width="500"/>
+        <Label x:Name="StatusLabel" Content="" HorizontalAlignment="Left" Margin="603,64,0,0" VerticalAlignment="Top" Width="150"/>
+        <ProgressBar x:Name="SearchProgressBar" HorizontalAlignment="Left" Height="10" Margin="603,43,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>

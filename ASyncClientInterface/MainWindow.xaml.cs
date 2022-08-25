@@ -16,6 +16,7 @@ using System.ServiceModel;
 using DC_Practical_1;
 using BusinessTier;
 using System.Runtime.Remoting.Messaging;
+using System.ComponentModel;
 
 namespace ASyncClientInterface
 {
@@ -32,6 +33,8 @@ namespace ASyncClientInterface
             InitializeComponent();
             ChannelFactory<BusinessServerInterface> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
+            tcp.OpenTimeout = new TimeSpan(1, 0, 0);
+            tcp.SendTimeout = new TimeSpan(1, 0, 0);
 
             string URL = "net.tcp://localhost:8200/BusinessService";
             foobFactory = new ChannelFactory<BusinessServerInterface>(tcp, URL);
@@ -85,7 +88,7 @@ namespace ASyncClientInterface
                 AsyncCallback callback;
                 callback = onSearchCompletion;
                 IAsyncResult result = search.BeginInvoke(SearchLastNameBox.Text, callback, null);
-                StatusLabel.Content = "Search Started...";
+                StatusLabel.Content = "Search Started..."; 
             }
             catch (FaultException ex)
             {
@@ -157,6 +160,7 @@ namespace ASyncClientInterface
                 UpdateGUI(customer);      
             }
             asyncObject.AsyncWaitHandle.Close();
+            
             switchOnReadOnly(false);
             StatusLabel.Dispatcher.Invoke(new Action(() => StatusLabel.Content = "Search Ended..."));
         }
@@ -165,6 +169,7 @@ namespace ASyncClientInterface
         {
             if (switchBool)
             {
+                SearchProgressBar.Dispatcher.Invoke(new Action(() => SearchProgressBar.IsIndeterminate = true));
                 SearchBtn.Dispatcher.Invoke(new Action(() => SearchBtn.IsEnabled = false));
                 GoBtn.Dispatcher.Invoke(new Action(() => GoBtn.IsEnabled = false));
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = true));
@@ -177,6 +182,7 @@ namespace ASyncClientInterface
             }
             else
             {
+                SearchProgressBar.Dispatcher.Invoke(new Action(() => SearchProgressBar.IsIndeterminate = false));
                 SearchBtn.Dispatcher.Invoke(new Action(() => SearchBtn.IsEnabled = true));
                 GoBtn.Dispatcher.Invoke(new Action(() => GoBtn.IsEnabled = true));
                 FirstNameBox.Dispatcher.Invoke(new Action(() => FirstNameBox.IsReadOnly = false));
@@ -188,5 +194,7 @@ namespace ASyncClientInterface
                 SearchLastNameBox.Dispatcher.Invoke(new Action(() => SearchLastNameBox.IsReadOnly = false));
             }
         }
+
+
     }
 }
