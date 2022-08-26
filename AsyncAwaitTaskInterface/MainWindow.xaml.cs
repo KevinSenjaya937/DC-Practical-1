@@ -81,21 +81,16 @@ namespace AsyncAwaitTaskInterface
         {
             try
             {
+                ErrorMsgBox.Text = String.Empty;
                 searchvalue = SearchLastNameBox.Text;
                 Task<Customer> task = new Task<Customer>(SearchDB);
                 switchOnReadOnly(true);
                 task.Start();
                 StatusLabel.Content = "Search started.............";
-                if (await Task.WhenAny(task, Task.Delay(100000)) == task)
-                {
-                    Customer customer = task.Result;
-                    UpdateGUI(customer);
-                    StatusLabel.Content = "Search ended...............";
-                }
-                else
-                {
-                    StatusLabel.Content = "Search Timed Out";
-                }
+                Customer customer = await task;
+                UpdateGUI(customer);
+                StatusLabel.Content = "Search ended...............";
+
             }
             catch (FaultException ex)
             {
@@ -124,6 +119,11 @@ namespace AsyncAwaitTaskInterface
                 return customer;
             }
             catch (FaultException ex)
+            {
+                ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
+                return null;
+            }
+            catch (CommunicationException ex)
             {
                 ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
                 return null;

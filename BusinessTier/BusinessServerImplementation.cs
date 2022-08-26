@@ -58,7 +58,6 @@ namespace BusinessTier
                 int entries = foob.GetNumEntries();
                 for (int i = 0; i < entries; i++)
                 {
-                    Console.WriteLine(i);
                     foob.GetValuesForEntry(i, out _, out _, out _, out _, out string lastName, out _);
                     if (lastName.ToUpper().Equals(searchValue.ToUpper()))
                     {

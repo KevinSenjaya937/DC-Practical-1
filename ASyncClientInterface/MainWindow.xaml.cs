@@ -83,6 +83,7 @@ namespace ASyncClientInterface
             
             try
             {
+                ErrorMsgBox.Text = String.Empty;
                 switchOnReadOnly(true);
                 search = SearchDB;
                 AsyncCallback callback;
@@ -114,6 +115,11 @@ namespace ASyncClientInterface
                 return customer;
             }
             catch (FaultException ex)
+            {
+                ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
+                return null;
+            }
+            catch (CommunicationException ex)
             {
                 ErrorMsgBox.Dispatcher.Invoke(new Action(() => ErrorMsgBox.Text = ex.Message.ToString()));
                 return null;
