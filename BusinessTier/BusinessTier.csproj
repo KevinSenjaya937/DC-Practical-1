@@ -57,6 +57,10 @@
       <Project>{e12c13c6-2b79-4066-8121-3f0cc1c1fdc4}</Project>
       <Name>DatabaseServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DC Practical 1\DC Practical 1.csproj">
+      <Project>{d933446d-95a1-4564-9fd6-38aa781f37a2}</Project>
+      <Name>DC Practical 1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InterfaceToDLL\InterfaceToDLL.csproj">
       <Project>{24c30fc1-a1de-4880-817b-afa93f11fc18}</Project>
       <Name>InterfaceToDLL</Name>

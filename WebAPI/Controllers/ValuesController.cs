@@ -4,22 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using DatabaseServer;
+using WebAPI.Models;
+using InterfaceToDLL;
 
 namespace WebAPI.Controllers
 {
+    [RoutePrefix("api/default")]
     public class ValuesController : ApiController
     {
         // GET api/values
+        static DatabaseServer databaseServer = new DatabaseServer();
+        BankingInterface foob = databaseServer.GetDataServer();
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
-        public string Get(int id)
+        [Route("get/{id}")]
+        [HttpGet]
+        public int Get(int id)
         {
-            
+            DatabaseServer databaseServer = new DatabaseServer();
+            BankingInterface foob = databaseServer.GetDataServer();
+            return foob.GetNumEntries();
         }
 
         // POST api/values
