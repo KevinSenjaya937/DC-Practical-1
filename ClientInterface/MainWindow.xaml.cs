@@ -16,6 +16,9 @@ using System.Drawing;
 using BusinessTier;
 using System.ServiceModel;
 using InterfaceToDLL;
+using Newtonsoft.Json;
+using RestSharp;
+using APIClassLibrary;
 
 namespace ClientInterface
 {
@@ -24,19 +27,10 @@ namespace ClientInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BusinessServerInterface foob;
+        
         public MainWindow()
         {
-            InitializeComponent();
-            ChannelFactory<BusinessServerInterface> foobFactory;
-            NetTcpBinding tcp = new NetTcpBinding();
-
-            string URL = "net.tcp://localhost:8200/BusinessService";
-            foobFactory = new ChannelFactory<BusinessServerInterface>(tcp, URL);
-            foob = foobFactory.CreateChannel();
-
-            TotalNumText.Text = foob.GetNumEntries().ToString();
-
+            
         }
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
@@ -49,18 +43,23 @@ namespace ClientInterface
             {
                 int index = Int32.Parse(IndexBox.Text);
                 ErrorMsgBox.Text = String.Empty;
-                    
-                foob.GetValuesForEntry(index, out acct, out pin, out bal, out fName, out lName, out profPicPath);
 
-                FirstNameBox.Text = fName;
-                LastNameBox.Text = lName;
-                BalanceBox.Text = bal.ToString("C");
-                AcctNoBox.Text = acct.ToString("D4");
-                PinNumBox.Text = pin.ToString("D4");
+                string URL = "https://localhost:44352/";
+                RestClient client = new RestClient(URL);
+                RestRequest request = new RestRequest("api/customer/get/" + index.ToString());
+                RestResponse response = client.Get(request);
+
+                APIClassLibrary.DataIntermed dataIntermed = JsonConvert.DeserializeObject<APIClassLibrary.DataIntermed>(response.Content);
+
+                FirstNameBox.Text = dataIntermed.fName;
+                LastNameBox.Text = dataIntermed.lName;
+                BalanceBox.Text = dataIntermed.bal.ToString("C");
+                AcctNoBox.Text = dataIntermed.acctNo.ToString("D4");
+                PinNumBox.Text = dataIntermed.pin.ToString("D4");
 
                 BitmapImage profilePicture = new BitmapImage();
                 profilePicture.BeginInit();
-                profilePicture.UriSource = new Uri(profPicPath);
+                profilePicture.UriSource = new Uri(dataIntermed.profPicPath);
                 profilePicture.EndInit();
                 
                 ProfileImage.Source = profilePicture;
@@ -86,23 +85,32 @@ namespace ClientInterface
                 ErrorMsgBox.Text = String.Empty;
                 try
                 {
-                    foob.SearchCustomer(SearchLastNameBox.Text, out uint acctNumber, out uint pinNumber, out int balance, out string firstName, out string lastName, out string profilePicturePath);
+                    APIClassLibrary.SearchData mySearch = new APIClassLibrary.SearchData();
+                    mySearch.searchStr = SearchLastNameBox.Text;
+                    string URL = "https://localhost:44352/";
+                    RestClient client = new RestClient(URL);
+                    RestRequest request = new RestRequest("api/search/");
+                    request.AddJsonBody(mySearch);
 
-                    if (acctNumber == 0)
+                    RestResponse response = client.Post(request);
+                    APIClassLibrary.DataIntermed dataIntermed = JsonConvert.DeserializeObject<APIClassLibrary.DataIntermed>(response.Content);
+
+
+                    if (dataIntermed.acctNo == 0)
                     {
                         ErrorMsgBox.Text = "No user with matching last name found";
                     }
                     else
                     {
-                        FirstNameBox.Text = firstName;
-                        LastNameBox.Text = lastName;
-                        BalanceBox.Text = balance.ToString("C");
-                        AcctNoBox.Text = acctNumber.ToString("D4");
-                        PinNumBox.Text = pinNumber.ToString("D4");
+                        FirstNameBox.Text = dataIntermed.fName;
+                        LastNameBox.Text = dataIntermed.lName;
+                        BalanceBox.Text = dataIntermed.bal.ToString("C");
+                        AcctNoBox.Text = dataIntermed.acctNo.ToString("D4");
+                        PinNumBox.Text = dataIntermed.pin.ToString("D4");
                         
                         BitmapImage profilePicture = new BitmapImage();
                         profilePicture.BeginInit();
-                        profilePicture.UriSource = new Uri(profilePicturePath);
+                        profilePicture.UriSource = new Uri(dataIntermed.profPicPath);
                         profilePicture.EndInit();
 
                         ProfileImage.Source = profilePicture;

@@ -9,7 +9,6 @@ using InterfaceToDLL;
 
 namespace WebAPI.Controllers
 {
-    [RoutePrefix("api/default")]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -20,9 +19,6 @@ namespace WebAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [Route("get/{id}")]
-        [HttpGet]
         public int Get(int id)
         {
             DatabaseServer databaseServer = new DatabaseServer();
