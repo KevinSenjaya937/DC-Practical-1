@@ -31,5 +31,8 @@
         <Button x:Name="SearchBtn" Content="Search" HorizontalAlignment="Left" Margin="534,38,0,0" VerticalAlignment="Top" Click="SearchBtn_Click"/>
         <Label x:Name="StatusLabel" Content="" HorizontalAlignment="Left" Margin="609,70,0,0" VerticalAlignment="Top" Width="149"/>
         <ProgressBar x:Name="SearchProgressBar" HorizontalAlignment="Left" Height="10" Margin="609,43,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBlock x:Name="SetBaseURLText" HorizontalAlignment="Left" Margin="244,15,0,0" TextWrapping="Wrap" Text="Total Items:" VerticalAlignment="Top"/>
+        <TextBox x:Name="SetURLBox" HorizontalAlignment="Left" Margin="400,10,0,0" TextWrapping="Wrap" Text="Base URL?" VerticalAlignment="Top" Width="182" RenderTransformOrigin="0.195,-0.835"/>
+        <Button x:Name="SetBaseURL" Content="Set" HorizontalAlignment="Left" Margin="609,7,0,0" VerticalAlignment="Top" Click="SetBaseURL_Click"/>
     </Grid>
 </Window>

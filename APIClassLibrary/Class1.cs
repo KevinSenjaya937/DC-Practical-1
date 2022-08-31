@@ -20,4 +20,13 @@ namespace APIClassLibrary
     {
         public string searchStr { get; set; }
     }
+
+    [Serializable()]
+    public class Error : SystemException
+    {
+        public Error() { }
+        public Error(string message) : base(message) { }
+        public Error(string message, Exception innerException) : base(message, innerException) { }
+
+    }
 }

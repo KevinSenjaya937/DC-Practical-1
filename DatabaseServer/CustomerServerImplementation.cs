@@ -32,9 +32,10 @@ namespace DatabaseServer
                 lName = data.GetLastNameByIndex(index);
                 profPicPath = data.GetProfPicPath(index);
             }
-            catch(ArgumentOutOfRangeException ex)
+            catch(ArgumentOutOfRangeException)
             {
-                throw new FaultException<ArgumentOutOfRangeException>(ex, "Bad Index - GetValuesForEntry");
+                CustomException fault = new CustomException();
+                throw new FaultException<CustomException>(fault, "Bad Index - GetValuesForEntry");
             }
         }
     }

@@ -20,7 +20,14 @@ namespace WebAPI.Controllers
         [HttpGet]
         public DataIntermed Get(int index)
         {
-            return dataTier.GetCustomer(index);
+            try
+            {
+                return dataTier.GetCustomer(index);
+            }
+            catch (FaultException<CustomException>)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Index provided is out of range."));
+            }
         }
     }
 }

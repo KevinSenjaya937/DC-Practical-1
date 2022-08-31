@@ -27,8 +27,7 @@ namespace ClientInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string V = "Hello";
-        private static string URL = "https://localhost:44352/";
+        private static readonly string URL = "https://localhost:44352/";
         private readonly RestClient client = new RestClient(URL);
 
         public MainWindow()
@@ -42,10 +41,6 @@ namespace ClientInterface
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
         {
-            string fName = "", lName = "", profPicPath = "";
-            int bal = 0;
-            uint acct = 0, pin = 0;
-
             try
             {
                 int index = Int32.Parse(IndexBox.Text);
@@ -100,6 +95,12 @@ namespace ClientInterface
                 BalanceBox.Text     = dataIntermed.bal.ToString("C");
                 AcctNoBox.Text      = dataIntermed.acctNo.ToString("D4");
                 PinNumBox.Text      = dataIntermed.pin.ToString("D4");
+                BitmapImage profilePicture = new BitmapImage();
+                profilePicture.BeginInit();
+                profilePicture.UriSource = new Uri(dataIntermed.profPicPath);
+                profilePicture.EndInit();
+
+                ProfileImage.Source = profilePicture;
             }
             catch (FaultException ex)
             {

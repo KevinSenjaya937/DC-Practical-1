@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.ServiceModel;
 using System.Web;
 using System.Web.Http;
@@ -15,8 +17,17 @@ namespace WebAPI.Controllers
     {
         private readonly DatabaseServer dataTier = DatabaseServer.Instance();
 
-        [Route("post/{searchData}")]
+        [Route("post/")]
         [HttpPost]
-        public DataIntermed Post([FromBody] SearchData searchData) => dataTier.SearchCustomer(searchData);
+        public DataIntermed Post([FromBody] SearchData searchData)
+        {
+            DataIntermed customer = dataTier.SearchCustomer(searchData);
+                
+            if (customer.profPicPath == null)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "No customer with matching last name found."));
+            }
+            return customer;
+        }
     }
 }

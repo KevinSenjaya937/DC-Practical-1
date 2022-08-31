@@ -5,6 +5,7 @@ using System.Web;
 using InterfaceToDLL;
 using System.ServiceModel;
 using APIClassLibrary;
+using System.Web.Http;
 
 namespace WebAPI.Models
 {
@@ -27,7 +28,15 @@ namespace WebAPI.Models
 
         public int GetNumEntries()
         {
-            return this.foob.GetNumEntries();
+            try
+            {
+                return this.foob.GetNumEntries();
+            }
+            catch (FaultException<CustomException>ex)
+            {
+                throw ex;
+            }
+            
         }
 
         public DataIntermed GetCustomer(int index)
@@ -61,10 +70,11 @@ namespace WebAPI.Models
                     customer = this.GetCustomer(i);
 
                     if (customer.lName.ToUpper() == searchData.searchStr.ToUpper())
-                    {
+                    { 
                         return customer;
                     }
                 }
+                
             }
             return null;
         }
