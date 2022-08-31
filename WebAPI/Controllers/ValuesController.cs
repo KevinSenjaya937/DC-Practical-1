@@ -9,21 +9,22 @@ using InterfaceToDLL;
 
 namespace WebAPI.Controllers
 {
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
         // GET api/values
-        static DatabaseServer databaseServer = new DatabaseServer();
-        BankingInterface foob = databaseServer.GetDataServer();
-        public IEnumerable<string> Get()
+        private readonly DatabaseServer dataTier = DatabaseServer.Instance();
+
+        [Route("numEntries")]
+        [HttpGet]
+        public int Get()
         {
-            return new string[] { "value1", "value2" };
+            return dataTier.GetNumEntries();
         }
 
         public int Get(int id)
         {
-            DatabaseServer databaseServer = new DatabaseServer();
-            BankingInterface foob = databaseServer.GetDataServer();
-            return foob.GetNumEntries();
+            return 1;
         }
 
         // POST api/values

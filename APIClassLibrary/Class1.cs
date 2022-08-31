@@ -8,16 +8,16 @@ namespace APIClassLibrary
 {
     public class DataIntermed
     {
-        public int bal;
-        public uint acctNo;
-        public uint pin;
-        public string fName;
-        public string lName;
-        public string profPicPath;
+        public int bal              { get; set; }
+        public uint acctNo          { get; set; }
+        public uint pin             { get; set; }
+        public string fName         { get; set; }
+        public string lName         { get; set; }
+        public string profPicPath   { get; set; }
     }
 
     public class SearchData
     {
-        public string searchStr;
+        public string searchStr { get; set; }
     }
 }

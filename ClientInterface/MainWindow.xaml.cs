@@ -27,10 +27,17 @@ namespace ClientInterface
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private const string V = "Hello";
+        private static string URL = "https://localhost:44352/";
+        private readonly RestClient client = new RestClient(URL);
+
         public MainWindow()
         {
-            
+            InitializeComponent();
+            RestRequest request = new RestRequest("api/values/numEntries");
+            RestResponse response = client.Get(request);
+
+            TotalNumLabel.Text = response.Content;
         }
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
@@ -44,8 +51,6 @@ namespace ClientInterface
                 int index = Int32.Parse(IndexBox.Text);
                 ErrorMsgBox.Text = String.Empty;
 
-                string URL = "https://localhost:44352/";
-                RestClient client = new RestClient(URL);
                 RestRequest request = new RestRequest("api/customer/get/" + index.ToString());
                 RestResponse response = client.Get(request);
 
@@ -77,55 +82,29 @@ namespace ClientInterface
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-
-            var regexItem = new System.Text.RegularExpressions.Regex("^[a-zA-Z]*$");
-
-            if (regexItem.IsMatch(SearchLastNameBox.Text))
+            ErrorMsgBox.Text = String.Empty;
+            try
             {
-                ErrorMsgBox.Text = String.Empty;
-                try
+                SearchData mySearch = new SearchData
                 {
-                    APIClassLibrary.SearchData mySearch = new APIClassLibrary.SearchData();
-                    mySearch.searchStr = SearchLastNameBox.Text;
-                    string URL = "https://localhost:44352/";
-                    RestClient client = new RestClient(URL);
-                    RestRequest request = new RestRequest("api/search/");
-                    request.AddJsonBody(mySearch);
+                    searchStr = SearchLastNameBox.Text
+                };
+                RestRequest request = new RestRequest("api/search/post");
+                request.AddJsonBody(mySearch);
 
-                    RestResponse response = client.Post(request);
-                    APIClassLibrary.DataIntermed dataIntermed = JsonConvert.DeserializeObject<APIClassLibrary.DataIntermed>(response.Content);
+                RestResponse response = client.Post(request);
+                DataIntermed dataIntermed = JsonConvert.DeserializeObject<DataIntermed>(response.Content);
 
-
-                    if (dataIntermed.acctNo == 0)
-                    {
-                        ErrorMsgBox.Text = "No user with matching last name found";
-                    }
-                    else
-                    {
-                        FirstNameBox.Text = dataIntermed.fName;
-                        LastNameBox.Text = dataIntermed.lName;
-                        BalanceBox.Text = dataIntermed.bal.ToString("C");
-                        AcctNoBox.Text = dataIntermed.acctNo.ToString("D4");
-                        PinNumBox.Text = dataIntermed.pin.ToString("D4");
-                        
-                        BitmapImage profilePicture = new BitmapImage();
-                        profilePicture.BeginInit();
-                        profilePicture.UriSource = new Uri(dataIntermed.profPicPath);
-                        profilePicture.EndInit();
-
-                        ProfileImage.Source = profilePicture;
-                    }
-                }
-                catch (FaultException ex)
-                {
-                    ErrorMsgBox.Text = ex.Reason.ToString();
-                }
+                FirstNameBox.Text   = dataIntermed.fName;
+                LastNameBox.Text    = dataIntermed.lName;
+                BalanceBox.Text     = dataIntermed.bal.ToString("C");
+                AcctNoBox.Text      = dataIntermed.acctNo.ToString("D4");
+                PinNumBox.Text      = dataIntermed.pin.ToString("D4");
             }
-            else
+            catch (FaultException ex)
             {
-                ErrorMsgBox.Text = "Bad Input Detected. Input must be a valid last name with no special characters.";
+                ErrorMsgBox.Text = ex.Reason.ToString();
             }
-            
         }
     }
 }
