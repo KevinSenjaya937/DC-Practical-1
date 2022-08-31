@@ -33,7 +33,6 @@ namespace AsyncAwaitTaskInterface
             RestResponse response = client.Get(request);
 
             TotalNumText.Text = response.Content;
-
         }
 
         private void GoBtn_Click(object sender, RoutedEventArgs e)
@@ -47,7 +46,7 @@ namespace AsyncAwaitTaskInterface
                 RestRequest request = new RestRequest("api/customer/get/" + index.ToString());
                 RestResponse response = client.Get(request);
 
-                APIClassLibrary.DataIntermed dataIntermed = JsonConvert.DeserializeObject<APIClassLibrary.DataIntermed>(response.Content);
+                DataIntermed dataIntermed = JsonConvert.DeserializeObject<DataIntermed>(response.Content);
 
                 FirstNameBox.Text = dataIntermed.fName;
                 LastNameBox.Text = dataIntermed.lName;
