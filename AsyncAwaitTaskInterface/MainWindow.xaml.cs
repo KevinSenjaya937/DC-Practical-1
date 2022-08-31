@@ -21,7 +21,6 @@ using System.Net.Http;
 
 namespace AsyncAwaitTaskInterface
 {
-
     public partial class MainWindow : Window
     {
         private static string URL = "https://localhost:44352/";
